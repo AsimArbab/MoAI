@@ -23,7 +23,7 @@ class PSU:
         Getter Method for the PSUs identifier
 
         Returns:
-            str: PSUs identifiert
+            str: PSUs identifier
 
         """
         return self.identifier
@@ -41,6 +41,7 @@ class PSU:
     def check_for(self, some_item):
         """
         Checks how many instances of a given item the PSU is holding
+
         some_item (str): The item to be checked for
 
         Returns:
