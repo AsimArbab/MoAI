@@ -43,7 +43,7 @@ class WHreader:
         """
         Getter Method for the Warehouse's PSUs
 
-        Return:
+        Returns:
             str[]: the list of the contents of each psu
 
         Example:
