@@ -8,8 +8,7 @@ class WHreader:
     def __init__(self, input_file):
 
         """
-        Constructor for WHreader Object
-        Creates/Intializes WHreader Object
+        Warehouse Reader Object
 
         Args:
              input_file (str): path to txt file
@@ -43,7 +42,7 @@ class WHreader:
         """
         Getter Method for the Warehouse's PSUs
 
-        Return:
+        Returns:
             str[]: the list of the contents of each psu
 
         Example:
