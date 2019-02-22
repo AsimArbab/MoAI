@@ -1,4 +1,4 @@
-import PSU
+from psu import PSU
 
 
 class Warehouse:
