@@ -13,6 +13,7 @@ def objective(state):
     for i in range(len(state)):
         if state[i] in state[i + 1:]:
             val -= 1
+    # print(val)
     return val
 
 
@@ -27,10 +28,10 @@ def neighborhood(Warehouse, state, order):
     """
     neighbors = []
     for i in range(len(state)):
-        for j in range(len(warehouse.look_up(order[i]))):
+        for j in range(len(Warehouse.look_up(order[i]))):
             #slicing neccessary for really copyin the state, not referencing it!
             n = state[:]
-            n[i] = warehouse.look_up(order[i])[j]
+            n[i] = Warehouse.look_up(order[i])[j]
             neighbors.append(n)
     return neighbors
 
@@ -45,7 +46,7 @@ def first_choice_hill_climbing(Warehouse, order):
     # random initial state
     state = []
     for i in order:
-        state.append(rd.choice(warehouse.look_up(i)))
+        state.append(rd.choice(Warehouse.look_up(i)))
 
     val = objective(state)
 
@@ -55,8 +56,9 @@ def first_choice_hill_climbing(Warehouse, order):
     i = 0
     while val > 1 and i < 100000:
         index = rd.randint(0, len(state) - 1)
-        neighbor = state
-        neighbor[index] = rd.choice(warehouse.look_up(order[index]))
+        # slicing neccessary for really copyin the state, not referencing it!
+        neighbor = state[:]
+        neighbor[index] = rd.choice(Warehouse.look_up(order[index]))
         val_neighbor = objective(neighbor)
         if val_neighbor <= val:
             state = neighbor
@@ -65,9 +67,30 @@ def first_choice_hill_climbing(Warehouse, order):
 
     return state, val
 
-def hill_climbing(Warehouse):
+def hill_climbing(Warehouse, order):
+    # random initial state
+    state = []
+    for i in order:
+        state.append(rd.choice(Warehouse.look_up(i)))
+
+    val = objective(state)
+
+    neighborhood1 = neighborhood(Warehouse, state, order)
+
+    neigh_vals = {}
+    for i, neighbor in enumerate(neighborhood1):
+        neigh_vals[i] = objective(neighbor)
+
+    print(neighborhood1)
+    print(neigh_vals)
+
     return
 
 def local_beam_search(Warehouse):
     return
+
+def simulated_annealing(Warehouse):
+    return
+
+
 
