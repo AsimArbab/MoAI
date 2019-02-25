@@ -11,6 +11,9 @@ info = WHreader("data/problem1.txt")
 ikea = Warehouse(stock=info.get_stock(),psus=info.get_psus(), name="ikea")
 
 psu_list = ikea.psus
+#
+# for i in psu_list:
+#     print(i.check_for('i2'))
 
 order_obj = WHreader("data/order11.txt")
 
@@ -22,7 +25,7 @@ search = first_choice_hill_climbing(ikea, order)
 state1 = search[0]
 val = search[1]
 
-print(state1)
+# print(state1)
 print(val)
 # print(objective(state1))
 
@@ -32,8 +35,8 @@ print(val)
 #
 state = [state1[i].get_name() for i in range(len(state1))]
 print(state)
-val = objective(state)
-print(val)
+# val = objective(state)
+# print(val)
 #
 # print(state)
 # val1 = objective(state)

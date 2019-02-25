@@ -2,18 +2,28 @@
 
 import random as rd
 
-def objective(state):
+def objective(state, order):
     """
     calculates the value of the objective function of a given state, which is the number of different PSUs used in a state
     :param state: list of PSUs of the length of the order, which contains for every item of the order from which PSU the
      item is taken
     :return: val of the objective function of the given state
     """
+    # check if your state takes more pieces of a certain item from a PSU than this PSU contains, if so return worse
+    # objective function than for taking each item from another PSU
+    for i, psu1 in enumerate(state):
+        num = 0
+        for j, psu2 in enumerate(state):
+            if psu1 == psu2 and order[i] == order[j]:
+                num += 1
+        if num > psu1.check_for(order[i]):
+            return len(state)+1
+
+    #count number of used PSUs in the state
     val = len(state)
     for i in range(len(state)):
         if state[i] in state[i + 1:]:
             val -= 1
-    # print(val)
     return val
 
 
@@ -29,7 +39,7 @@ def neighborhood(Warehouse, state, order):
     neighbors = []
     for i in range(len(state)):
         for j in range(len(Warehouse.look_up(order[i]))):
-            #slicing neccessary for really copyin the state, not referencing it!
+            #slicing neccessary for really copying the state, not referencing it!
             n = state[:]
             n[i] = Warehouse.look_up(order[i])[j]
             neighbors.append(n)
@@ -48,7 +58,7 @@ def first_choice_hill_climbing(Warehouse, order):
     for i in order:
         state.append(rd.choice(Warehouse.look_up(i)))
 
-    val = objective(state)
+    val = objective(state, order)
 
     # take randomly one item from another PSU than in the current state, if the objective function of the neighbor state
     # is equal or better, use that state as current state
@@ -56,13 +66,13 @@ def first_choice_hill_climbing(Warehouse, order):
     i = 0
     while val > 1 and i < 100000:
         index = rd.randint(0, len(state) - 1)
-        # slicing neccessary for really copyin the state, not referencing it!
+        # slicing neccessary for really copying the state, not referencing it!
         neighbor = state[:]
         neighbor[index] = rd.choice(Warehouse.look_up(order[index]))
-        val_neighbor = objective(neighbor)
+        val_neighbor = objective(neighbor, order)
         if val_neighbor <= val:
             state = neighbor
-            val = objective(state)
+            val = objective(state, order)
         i += 1
 
     return state, val
@@ -73,13 +83,13 @@ def hill_climbing(Warehouse, order):
     for i in order:
         state.append(rd.choice(Warehouse.look_up(i)))
 
-    val = objective(state)
+    val = objective(state, order)
 
     neighborhood1 = neighborhood(Warehouse, state, order)
 
     neigh_vals = {}
     for i, neighbor in enumerate(neighborhood1):
-        neigh_vals[i] = objective(neighbor)
+        neigh_vals[i] = objective(neighbor, order)
 
     print(neighborhood1)
     print(neigh_vals)
