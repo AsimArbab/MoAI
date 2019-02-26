@@ -1,4 +1,5 @@
 from psu import PSU
+from collections import Counter
 
 
 class Warehouse:
@@ -47,7 +48,42 @@ class Warehouse:
         """
         return self.storage[item][:]
 
+
+    def availability(self, item):
+        """
+        Checks availabilty of an items in terms of numbers in stock
+
+        Args:
+            item (str): the items to be checked for availability
+
+        Returns:
+            int: how many of the item are in stock
+
+        """
+        return len(self.look_up(item))
+
+
     def place_order(self, order):
-        return
+        #check if input is a filepath
+        if type(order) == str:
+            with open(order, "r") as data:
+                ordered = data.read().split('\n')[0].split(" ")
 
+        else:
+            ordered = order
 
+        # check if all items are part of the warehouses stock
+        for item in ordered:
+            if item not in ordered:
+                return []
+
+        # check if enough of each product is in stock
+        uniques = set(ordered)
+        occurrences = Counter(ordered)
+        for item in uniques:
+            if occurrences[item] > self.availability(item):
+                return []
+
+        # if everything checks out return list of sets of what psus carry each item
+        else:
+            return [list(set(self.look_up(item))) for item in ordered]

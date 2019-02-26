@@ -23,7 +23,7 @@ class WHreader:
             warehouse = data.read().split('\n')
 
         self.stock = warehouse[0].split(' ')
-        self.psus = [psu.split(' ') for psu in warehouse[2:]]
+        self.psus = [psu.split(' ') for psu in warehouse[2:-1]]
 
 
     def get_stock(self):
