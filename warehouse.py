@@ -64,7 +64,21 @@ class Warehouse:
 
 
     def place_order(self, order):
-        #check if input is a filepath
+        """
+        Checks whether a order can be placed, by checking the stock and availability then returns
+        a list of PSUs that carry each ordered item. That 2-Dimensional Array is the state space.
+        This method is optimized towards the assumption, that there is no duplicate items in an
+        order (as in the provided orders)!! This keeps the state space somewhat smaller.
+        That's why only the sets and not the lists are returned.
+
+        Args:
+            order (str[]): the list of ordered items
+
+        Returns:
+            [PSU[]]: for each item the set that contains the item
+
+        """
+        # check if input is a filepath
         if type(order) == str:
             with open(order, "r") as data:
                 ordered = data.read().split('\n')[0].split(" ")

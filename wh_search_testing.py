@@ -1,6 +1,6 @@
 from warehouse import Warehouse
 from wh_reader import WHreader
-from wh_search import neighborhood
+from wh_search import neighbourhood
 from wh_search import objective_function
 
 info = WHreader("data/test2.txt")
@@ -31,10 +31,14 @@ print(neighborhood(state, statespace2))
 
 print("\n\n\n")
 curr_state = statespace1[:][0]
-psu_neighborhood = neighborhood((curr_state), statespace1)
-for configuration in psu_neighborhood:
-    print("objective function: "+str(objective_function(configuration))+"\n")
+psu_neighbourhood = neighbourhood((curr_state), statespace1)
+for configuration in psu_neighbourhood:
+    print("objective function: "+str(objective_function(configuration)))
     for psu in configuration:
         print(psu.get_name(),end=" | ")
-same=ikea.psus[0]
-print(objective_function([same,same,same]))
+
+print("\n\n\n")
+print(order2[:][1])
+
+from wh_search import  randomstate
+print(randomstate(statespace2))
