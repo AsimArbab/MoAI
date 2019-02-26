@@ -22,7 +22,9 @@ class Warehouse:
             storage (dict of str: PSU[]): Hashtable with item names as keys for lists of PSUs that contain them
 
         """
-
+        # initially the stock was converted into int productIDs, that were to be stored in the PSU Object
+        # in lieu of the Strings, but considering once the hashtable is built there aren't many String comparisons,
+        # it didn't seem to be worth the hassle
         self.name = name
         self.stock = stock
         self.psus = [PSU("PSU_" + str(identifier), psu) for identifier, psu in enumerate(psus, 1)]

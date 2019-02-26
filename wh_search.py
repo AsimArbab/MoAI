@@ -1,5 +1,6 @@
 from random import choice as pickrandom
 
+
 def neighbourhood(state, statespace):
     """
     Creates a neighbourhood for a state given a statespace. The criterium being that a neighbour is each state
@@ -40,7 +41,28 @@ def objective_function(state):
 
     """
 
-    return len(state)-len(set(state))
+    return len(state) - len(set(state))
+
+
+def best_neighbour(neighbourhood):
+    """
+    r
+    Returns a best neighbour and its objective value according to the Objective Function
+
+    Args:
+        neighbourhood ([PSU[]]): possible configurations of the neighbourhood
+
+    Returns:
+        int, PSU[]: highest objective value in the neighbourhood and the corresponding neighbour
+
+    """
+    objective_neighbourhood = [objective_function(state) for state in neighbourhood]
+    best_val = max(objective_neighbourhood)
+    best_index = objective_neighbourhood.index(best_val)
+    best_state = neighbourhood[best_index]
+
+    return best_val, best_state
+
 
 def randomstate(statespace):
     """
@@ -57,24 +79,38 @@ def randomstate(statespace):
 
 
 def first_choice_hill_climbing(statespace):
+    steps = 100000
+    current = randomstate(statespace)
+    for i in range(steps):
+        hood = neighbourhood(current, statespace)
+        values = [objective_function(state) for state in hood]
+        for index, value in enumerate(values):
+            if value > objective_function(current):
+                current = hood[index].copy()
+                break
+    return current
 
-    return
 
 def hill_climbing(statespace):
-    # select random initial state
+    steps = 100000
     current = randomstate(statespace)
-    return
+    for i in range(steps):
+        hood = neighbourhood(current, statespace)
+        neighbour = best_neighbour(hood)
+        if objective_function(current) < neighbour[0]:
+            current = neighbour[1].copy()
+
+    return current
+
 
 def parallel_hill_climbing():
-    #look up threads in pyhton
+    # look up threads in python
     return
+
 
 def local_beam_search():
     return
-#with lambda
+
 
 def simulated_annealing():
     return
-
-
-

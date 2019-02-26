@@ -27,7 +27,7 @@ state = [1,1,1,5,5]
 
 
 print("\n\n\n")
-print(neighborhood(state, statespace2))
+print(neighbourhood(state, statespace2))
 
 print("\n\n\n")
 curr_state = statespace1[:][0]
@@ -42,3 +42,11 @@ print(order2[:][1])
 
 from wh_search import  randomstate
 print(randomstate(statespace2))
+
+from wh_search import hill_climbing,first_choice_hill_climbing
+
+result = hill_climbing(statespace2)
+print(result)
+
+result2=first_choice_hill_climbing(statespace2)
+print(result2)
