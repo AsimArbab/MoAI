@@ -12,7 +12,7 @@ class PSU:
             inventory (str[]): a list of objects to be stored in the PSU
 
         Attributes:
-            identifier (str): the PSUs identifiert
+            identifier (str): the PSUs identifier
             inventory (str[]): the PSUs inventory
         """
         self.identifier = identifier

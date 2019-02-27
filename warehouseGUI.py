@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, scrolledtext
+from warehouse import Warehouse
+from wh_reader import WHreader
 
 
 win = tk.Tk()
@@ -14,11 +16,24 @@ def load():
 	filename = filedialog.askopenfilename(parent=win)
 	global file
 	file = open(filename)
+	global readtxt
+	readtxt = file.read()
+	global housie
+	housie = WHreader(filename)
+	global hallo
+	hallo = Warehouse(WHreader(filename).stock, WHreader(filename).psus)
    
 def view():
 	view_win = tk.Tk()
-	line_label = ttk.Label(view_win, text=file.read())
-	line_label.grid(column=1, row=0)
+	stock_label = ttk.Label(view_win, text= 'Stock: ' + (', '.join(housie.stock)))
+	stock_label.grid(column=1, row=0)
+	psu_label = ttk.Label(view_win, text= 'PSUS:')
+	psu_label.grid(column=1, sticky='W', row=1)
+	counter = 0
+	for psu in housie.psus:
+		counter += 1
+		psu_label = ttk.Label(view_win, text= 'PSU ' + str(counter) + ': ' + (', '.join(psu)))
+		psu_label.grid(column=1, sticky='W', row=counter + 1)
  
 
 warehouseFrame = ttk.LabelFrame(win, text=' Warehouse Information ') # 1
