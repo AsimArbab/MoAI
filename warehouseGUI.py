@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, scrolledtext
 from warehouse import Warehouse
 from wh_reader import WHreader
-
+from wh_search import 
 
 win = tk.Tk()
 win.title("Warehouse Calculator")
@@ -12,25 +12,27 @@ win.title("Warehouse Calculator")
 #warehouse information
 
 def load():
-	global filename
+	"""
+        opens a load dialogue window to load a file and creates a WHreader and a Warehouse object
+    """
 	filename = filedialog.askopenfilename(parent=win)
-	global file
 	file = open(filename)
-	global readtxt
-	readtxt = file.read()
-	global housie
-	housie = WHreader(filename)
-	global hallo
-	hallo = Warehouse(WHreader(filename).stock, WHreader(filename).psus)
+	global read_setting
+	read_setting = WHreader(filename)
+	global whouse_object
+	whouse_object = Warehouse(WHreader(filename).stock, WHreader(filename).psus)
    
 def view():
+	"""
+        view the current warehouse setting in a different window
+    """
 	view_win = tk.Tk()
-	stock_label = ttk.Label(view_win, text= 'Stock: ' + (', '.join(housie.stock)))
+	stock_label = ttk.Label(view_win, text= 'Stock: ' + (', '.join(read_setting.stock)))
 	stock_label.grid(column=1, row=0)
 	psu_label = ttk.Label(view_win, text= 'PSUS:')
 	psu_label.grid(column=1, sticky='W', row=1)
 	counter = 0
-	for psu in housie.psus:
+	for psu in read_setting.psus:
 		counter += 1
 		psu_label = ttk.Label(view_win, text= 'PSU ' + str(counter) + ': ' + (', '.join(psu)))
 		psu_label.grid(column=1, sticky='W', row=counter + 1)
@@ -49,6 +51,10 @@ view_setting_button.grid(column=2, row=1, padx=20, pady=10)
 
 #order
 def place_order():
+	"""
+        writes the order in a variable and prints it out as well in the GUI
+    """
+	order_string = scr.get(1.0, 99.0)
 	placed_label = ttk.Label(orderFrame, text="Current Order: \n" + scr.get(1.0, 99.0))
 	placed_label.grid(column=1, sticky='W', row=5, padx=10, pady=5)
 	
@@ -67,18 +73,23 @@ scr.grid(column=1, sticky='WE', columnspan=2, padx=10, pady=5)
 place_order_button = ttk.Button(orderFrame, text="Place this order", command=place_order)
 place_order_button.grid(column=2, row=4, padx=5, pady=5)
 
-#order = tk.StringVar()
-#orderEntered = ttk.Entry(win, width=12, textvariable=order)
-#orderEntered.grid(column=1, row=3)
-
-
 
 
 """Search Methods"""
 
-
 #Button Action
 def clickMe(butt, labe):
+	
+	"""
+        marks one search method as selected and all others at not selected 
+		writes the selected method into a global variable
+
+        Args:
+            butt (button): button of the search method
+			labe (label): label of the search method
+			
+    """
+		
 	if butt.config('text')[-1] == '** Using **':
 		butt.config(text='Use')
 		labe.configure(foreground='black')
@@ -143,10 +154,15 @@ for child in methodsFrame.winfo_children():
 	child.grid_configure(padx=15, pady=4)
 
 	
-	
 """OUTPUT"""
 
 def solve():
+	
+	"""
+        launches the search and prints out the solution n the method
+		
+    """
+	
 	selected = False
 	for button in button_list:
 		if button.config('text')[-1] == '** Using **':
@@ -155,7 +171,10 @@ def solve():
 			continue
 			
 	if selected == True:
-		warning_label.configure(text='')		
+		warning_label.configure(text='')
+		
+		to_print_out = bring_item(order,chosen_method,steps= 10000,n=4)
+		
 		solution_label = ttk.Label(methodsFrame, text=chosen_method + " gave you\nthe following solution: \n\n" + "LÖSUNG")
 		solution_label.grid(column=4, sticky='W', row=7, padx=10, pady=5)
 	
