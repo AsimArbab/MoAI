@@ -43,10 +43,15 @@ print(order2[:][1])
 from wh_search import  randomstate
 print(randomstate(statespace2))
 
-from wh_search import hill_climbing,first_choice_hill_climbing
+# from wh_search import hill_climbing,first_choice_hill_climbing
+#
+# result = hill_climbing(statespace2)
+# print(result)
+#
+# result2=first_choice_hill_climbing(statespace2)
+# print(result2)
 
-result = hill_climbing(statespace2)
-print(result)
+from wh_search import parallel_hill_climbing
+result3 = parallel_hill_climbing(statespace2,3)
 
-result2=first_choice_hill_climbing(statespace2)
-print(result2)
+print(result3)

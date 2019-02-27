@@ -22,9 +22,9 @@ class Warehouse:
             storage (dict of str: PSU[]): Hashtable with item names as keys for lists of PSUs that contain them
 
         """
-        # initially the stock was converted into int productIDs, that were to be stored in the PSU Object
-        # in lieu of the Strings, but considering once the hashtable is built there aren't many String comparisons,
-        # it didn't seem to be worth the hassle
+        # initially the stock was converted into productIDs (int): productName(str) dictionary, that were to be stored in the PSU Object
+        # in lieu of the Strings, but considering that after the singular expenditure of building the hashtable
+        # there aren't many String comparisons, it didn't seem to be worth the hassle
         self.name = name
         self.stock = stock
         self.psus = [PSU("PSU_" + str(identifier), psu) for identifier, psu in enumerate(psus, 1)]
@@ -71,13 +71,14 @@ class Warehouse:
         a list of PSUs that carry each ordered item. That 2-Dimensional Array is the state space.
         This method is optimized towards the assumption, that there is no duplicate items in an
         order (as in the provided orders)!! This keeps the state space somewhat smaller.
-        That's why only the sets and not the lists are returned.
+        That's why only the sets and not the lists are returned. With the lists an additional constraint
+        can be put on the configurations.
 
         Args:
             order (str[]): the list of ordered items
 
         Returns:
-            [PSU[]]: for each item the set that contains the item
+            [set(PSU[])]: for each item the set that contains the item
 
         """
         # check if input is a filepath
