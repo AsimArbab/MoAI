@@ -1,5 +1,7 @@
 from psu import PSU
 from collections import Counter
+from wh_search import hill_climbing, parallel_hill_climbing, first_choice_hill_climbing, simulated_annealing, local_beam_search
+from wh_search import objective_function
 
 
 class Warehouse:
@@ -107,4 +109,27 @@ class Warehouse:
 
 
     def bring_item(self,order,search_algorithm,n,steps):
-        return
+        """
+        takes in the order and which algorithm shall be used and gives back the best state and its value according to
+        the chosen algorithm
+        :param order: input order
+        :param search_algorithm: which local search algorithm should be applied
+        :param n:
+        :param steps: how many steps shall be used in the search
+        :return: tuple of state and value of that state
+        """
+        statespace = self.place_order(order)
+
+        if search_algorithm == "fch":
+            result = first_choice_hill_climbing(statespace, steps)
+        elif search_algorithm == "hc":
+            result = hill_climbing(statespace, steps)
+        elif search_algorithm == "phc":
+            result = parallel_hill_climbing(satespace, n, steps)
+        elif search_algorithm == "lbs:":
+            result = local_beam_search(statespace, n, steps)
+        elif search_algorithm == "sa":
+            result = simulated_annealing(statespace)
+
+        val = objective_function(result)
+        return result, val
