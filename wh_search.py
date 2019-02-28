@@ -33,7 +33,9 @@ def neighbourhood(state, statespace):
 def objective_function(state):
     """
     Decides how good a state is in respect to the objective of using as few PSUs a possible
-
+    Since less than one PSU is not possible we know what an optimal solution is. Basically we
+    could stop the search algorithms once a current solution with objective value of len(order)-1
+    is found.
     Args:
         state (PSU[]): a list of (potentially identical) PSU objects
 

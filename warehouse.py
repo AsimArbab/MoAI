@@ -117,13 +117,14 @@ class Warehouse:
         :param steps: how many steps shall be used in the search
         :return: tuple of state and value of that state
         """
+        result = []
         if len(order) == 0:
             # order of length 0 means not all ordered items are in stock.
             return []
         elif n:
             if search_algorithm == "rr":
                 result = random_restart_climbing(order, n, steps)
-            elif search_algorithm == "lbs:":
+            elif search_algorithm == "lbs":
                 result = local_beam_search(order, n, steps)
         elif search_algorithm == "fch":
             result = first_choice_hill_climbing(order, steps)
