@@ -38,10 +38,9 @@ for configuration in psu_neighbourhood:
         print(psu.get_name(),end=" | ")
 
 print("\n\n\n")
-print(order2[:][1])
+
 
 from wh_search import  randomstate
-print(randomstate(statespace2))
 
 # from wh_search import hill_climbing,first_choice_hill_climbing
 #
@@ -51,7 +50,49 @@ print(randomstate(statespace2))
 # result2=first_choice_hill_climbing(statespace2)
 # print(result2)
 
-from wh_search import parallel_hill_climbing
-result3 = parallel_hill_climbing(statespace2,3)
+#from wh_search import parallel_hill_climbing
+#result3 = parallel_hill_climbing(statespace2,3)
 
-print(result3)
+#print(result3)
+
+
+
+# def best_neighbour2(neighbourhood, k=3):
+#
+#     objective_neighbourhood = [[objective_function(state), state] for state in neighbourhood]
+#     k_best = sorted(objective_neighbourhood, reverse=True, key=lambda x: x[0])
+#     #max = max(objective_neighbourhood, key=lambda x: x[0])
+#     sort2 = [[k_best[i][0], k_best[i][1]] for i in range(k)]
+#     return sort2
+
+k_current = [randomstate(statespace2) for i in range(3)]
+
+k_hood = []
+for k_state in k_current:
+    k_hood.extend(neighbourhood(k_state, statespace2))
+
+from wh_search import best_neighbour
+
+k_best_neighbours = best_neighbour(k_hood, 3)
+print("best: ",k_best_neighbours)
+print("current: ",k_current)
+
+
+current_vals = [objective_function(k) for k in k_current]
+print("current vals:",current_vals)
+if any(new_value[0] > current_value for new_value in k_best_neighbours for current_value in current_vals):
+    k_new = [neighbour[1] for neighbour in k_best_neighbours]
+
+print("new cureent:",k_new)
+
+print(best_neighbour(k_new))
+
+#from wh_search import local_beam_search
+#resultx = local_beam_search(statespace2,3)
+
+#print(resultx)
+
+from wh_search import simulated_annealing
+
+resultv = simulated_annealing(statespace2)
+print(resultv)
