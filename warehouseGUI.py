@@ -214,6 +214,7 @@ def solve():
 			
 	if selected == True:
 		warning_label.configure(text='')
+		global chosen_method
 		if chosen_method == 'Random Restart Climbing':
 			method = 'rr'
 			n = RR_k
