@@ -122,7 +122,11 @@ def local_beam_search(statespace, n, steps=10000):
 
 def simulated_annealing(statespace, temperature=1):
     """
-    calculate the best set of PSUs, that satisfy the order according to simulated annealing algorithm
+    calculate the best set of PSUs, that satisfy the order according to simulated annealing algorithm.
+    The temperature and the cooling schedule are chosen in a way such that the function exp(delta_E/T) decreases in a
+    meaningful way. We tried stepwise decreasing with T=10000 and t = t-1, but with that cooling schedule we would have
+    had about 9995 random steps and only 5 that really try to improve the objective function. With this schedule, we got
+    the best results.
     :param statespace ([PSU[]]): 2-Dimensional state space
     :param temperature: starting temperature for the algorithm
     :return: best state according to algorithm

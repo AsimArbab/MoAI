@@ -114,7 +114,7 @@ class Warehouse:
         the chosen algorithm
         :param order: input order
         :param search_algorithm: which local search algorithm should be applied
-        :param n:
+        :param n: can be different parameters for different algorithms
         :param steps: how many steps shall be used in the search
         :return: tuple of state and value of that state
         """
@@ -124,8 +124,8 @@ class Warehouse:
             result = first_choice_hill_climbing(statespace, steps)
         elif search_algorithm == "hc":
             result = hill_climbing(statespace, steps)
-        elif search_algorithm == "phc":
-            result = parallel_hill_climbing(satespace, n, steps)
+        elif search_algorithm == "rr":
+            result = random_restart_climbing(satespace, n, steps)
         elif search_algorithm == "lbs:":
             result = local_beam_search(statespace, n, steps)
         elif search_algorithm == "sa":

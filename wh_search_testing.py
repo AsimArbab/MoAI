@@ -59,14 +59,14 @@ statespace2 = [[1,3,6],[1,2,4,5,6],[1,2,3,4,5,6],[5,7],[5,6]]
 info1 = WHreader("data/problem1.txt")
 ikea1 = Warehouse(info1.get_stock(), info1.get_psus(), "ikea")
 
-statespace3 = ikea1.place_order("data/order12.txt")
+statespace3 = ikea1.place_order("data/order11.txt")
 
-# from wh_search import simulated_annealing
-# result4 = simulated_annealing(statespace3)
+from wh_search import simulated_annealing
+result4 = simulated_annealing(statespace3)
+
+print(objective_function(result4))
+
+# from wh_search import first_choice_hill_climbing
+# result5 = first_choice_hill_climbing(statespace3)
 #
-# print(result4)
-
-from wh_search import first_choice_hill_climbing
-result5 = first_choice_hill_climbing(statespace3)
-
-print(objective_function(result5))
+# print(objective_function(result5))
