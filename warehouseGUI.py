@@ -58,23 +58,30 @@ def load_order():
 	ordername = filedialog.askopenfilename(parent=win)
 	order_file = open(ordername)
 	global read_order
-	read_order = order_file.read()
-	placed_label = ttk.Label(orderFrame, text="Current Order: \n" + (', '.join(read_order)))
-	placed_label.grid(column=1, sticky='W', row=5, padx=10, pady=5)
+	read_order = WHreader(ordername)
 	
 def place_order():
 	"""
         writes the order in a variable and prints it out as well in the GUI
     """
 	order_string = scr.get(1.0, 99.0)
-	placed_label = ttk.Label(orderFrame, text="Current Order: \n" + scr.get(1.0, 99.0))
-	placed_label.grid(column=1, sticky='W', row=5, padx=10, pady=5)
+	global print_order
+	if len(order_string) != 1:
+		print_order = order_string
+	else:
+		global read_order
+		print_order = (', '.join(read_order.stock))
+	
+	#global final_order
+	#final_order = print_order
+	placed_label.configure(text="Current Order: \n" + print_order)
+	
 	
 # design #
 orderFrame = ttk.LabelFrame(win, text=' Order ') # 1
 orderFrame.grid(column=1,  sticky='NSWE', row=1, padx=5, pady=0)
 	
-order_label = ttk.Label(orderFrame, text="Please place your order!") 
+order_label = ttk.Label(orderFrame, text="Please type in OR load your order!") 
 order_label.grid(column=1, row=2, padx=10, pady=5)
 
 scrolW = 20
@@ -88,7 +95,8 @@ load_order_button.grid(column=1, row=4, padx=5, pady=5)
 place_order_button = ttk.Button(orderFrame, text="Place this order", command=place_order)
 place_order_button.grid(column=2, row=4, padx=5, pady=5)
 
-
+placed_label = ttk.Label(orderFrame, text='')
+placed_label.grid(column=1, sticky='W', row=5, padx=10, pady=5)
 
 ##################################################################################
 ### Search Method ###
@@ -192,12 +200,12 @@ def solve():
 			
 	if selected == True:
 		warning_label.configure(text='')
+		global whouse_object
+		to_print_out = whouse_object.bring_item(print_order,chosen_method,steps= 10000,n=4)
 		
-		to_print_out = bring_item(order,chosen_method,steps= 10000,n=4)
-		
-		solution_label = ttk.Label(methodsFrame, text=chosen_method + " gave you\nthe following solution: \n\n" + "LÖSUNG")
+		solution_label = ttk.Label(methodsFrame, text=chosen_method + " gave you\nthe following solution: \n\n" + (', '.join(to_print_out)))
 		solution_label.grid(column=4, sticky='W', row=7, padx=10, pady=5)
-	
+		
 	else:
 		warning_label.configure(foreground='red', text=' Please select \n a search method!')
 		warning_label.grid(column=5, row=5)
