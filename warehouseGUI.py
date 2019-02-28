@@ -60,7 +60,7 @@ def load_order():
 	global read_order
 	read_order = WHreader(ordername)
 	
-def place_order():
+def write_order():
 	"""
         writes the order in a variable and prints it out as well in the GUI
     """
@@ -70,7 +70,7 @@ def place_order():
 		print_order = order_string
 	else:
 		global read_order
-		print_order = (', '.join(read_order.stock))
+		print_order = (', \n'.join(read_order.stock))
 	
 	#global final_order
 	#final_order = print_order
@@ -92,7 +92,7 @@ scr.grid(column=1, sticky='WE', columnspan=2, padx=10, pady=5)
 load_order_button = ttk.Button(orderFrame, text="Load order", command=load_order)
 load_order_button.grid(column=1, row=4, padx=5, pady=5)
 
-place_order_button = ttk.Button(orderFrame, text="Place this order", command=place_order)
+place_order_button = ttk.Button(orderFrame, text="Place this order", command=write_order)
 place_order_button.grid(column=2, row=4, padx=5, pady=5)
 
 placed_label = ttk.Label(orderFrame, text='')
@@ -214,24 +214,25 @@ def solve():
 			
 	if selected == True:
 		warning_label.configure(text='')
+		global chosen_method
 		if chosen_method == 'Random Restart Climbing':
-			chosen_method = 'rr'
+			method = 'rr'
 			n = RR_k
 		elif chosen_method == 'Local Beam':
-			chosen_method = 'lbs'
+			method = 'lbs'
 			n = LB_k
 		elif chosen_method == 'First Choice Hill':
-			chosen_method = 'fch'
+			method = 'fch'
 			n = None
 		elif chosen_method == 'Simmulated Annealing':
-			chosen_method = 'sa'
+			method = 'sa'
 			n = None
 		else:
-			chosen_method = 'hc'
+			method = 'hc'
 			n = None
 
 		global whouse_object
-		to_print_out = whouse_object.bring_item(print_order,chosen_method, n)
+		to_print_out = whouse_object.bring_item(print_order, method, n)
 		
 		solution_label = ttk.Label(methodsFrame, text=chosen_method + " gave you\nthe following solution: \n\n" + (', '.join(to_print_out)))
 		solution_label.grid(column=4, sticky='W', row=7, padx=10, pady=5)
