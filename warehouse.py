@@ -131,5 +131,4 @@ class Warehouse:
         elif search_algorithm == "sa":
             result = simulated_annealing(statespace)
 
-        val = objective_function(result)
-        return result, val
+        return set(result)
