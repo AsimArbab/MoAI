@@ -215,11 +215,21 @@ def solve():
 	if selected == True:
 		warning_label.configure(text='')
 		if chosen_method == 'Random Restart Climbing':
+			chosen_method = 'rr'
 			n = RR_k
-		else if chosen_method == 'Local Beam':
+		elif chosen_method == 'Local Beam':
+			chosen_method = 'lbs'
 			n = LB_k
-		else: 
+		elif chosen_method == 'First Choice Hill':
+			chosen_method = 'fch'
 			n = None
+		elif chosen_method == 'Simmulated Annealing':
+			chosen_method = 'sa'
+			n = None
+		else:
+			chosen_method = 'hc'
+			n = None
+
 		global whouse_object
 		to_print_out = whouse_object.bring_item(print_order,chosen_method, n)
 		
