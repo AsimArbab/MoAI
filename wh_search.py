@@ -1,4 +1,6 @@
 from random import choice as pickrandom
+from random import random
+from numpy import exp
 
 
 def neighbourhood(state, statespace):
@@ -118,7 +120,31 @@ def local_beam_search(statespace, n, steps=10000):
 
 
 
-def simulated_annealing(statespace, temperature=1000):
+def simulated_annealing(statespace, temperature=1):
+    """
+    calculate the best set of PSUs, that satisfy the order according to simulated annealing algorithm
+    :param statespace ([PSU[]]): 2-Dimensional state space
+    :param temperature: starting temperature for the algorithm
+    :return: best state according to algorithm
+    """
     # linear cooling schedule
-    cooling_schedule = lambda t: t-1
-    return
+    cooling_schedule = lambda t: t-0.0001
+    current = randomstate(statespace)
+    T = temperature
+
+    while T > 0:
+        #pick random neighbor of current
+        next = pickrandom(neighbourhood(current, statespace))
+        delta_E = objective_function(next) - objective_function(current)
+        #if next state is better than current, replace current
+        if delta_E > 0:
+            current = next
+        #else replace current only with some probability exp(delta_E/T)
+        else:
+            p = random()
+            if p < exp(delta_E/T):
+                current = next
+        #decrease temperature according to cooling schedule
+        T = cooling_schedule(T)
+
+    return current
