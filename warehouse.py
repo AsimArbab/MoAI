@@ -1,6 +1,7 @@
 from psu import PSU
 from collections import Counter
-
+from wh_search import hill_climbing, random_restart_climbing, \
+    first_choice_hill_climbing, simulated_annealing, local_beam_search
 
 class Warehouse:
     """
@@ -106,5 +107,29 @@ class Warehouse:
             return [list(set(self.look_up(item))) for item in ordered]
 
 
-    def bring_item(self,order,search_algorithm,n,steps):
-        return
+    def bring_item(self, order, search_algorithm, n=None, steps = 50000):
+        """
+        takes in the order and which algorithm shall be used and gives back the best state and its value according to
+        the chosen algorithm
+        :param order: input order
+        :param search_algorithm: which local search algorithm should be applied
+        :param n: can be different parameters for different algorithms
+        :param steps: how many steps shall be used in the search
+        :return: tuple of state and value of that state
+        """
+        if len(order) == 0:
+            # order of length 0 means not all ordered items are in stock.
+            return []
+        elif n:
+            if search_algorithm == "rr":
+                result = random_restart_climbing(order, n, steps)
+            elif search_algorithm == "lbs:":
+                result = local_beam_search(order, n, steps)
+        elif search_algorithm == "fch":
+            result = first_choice_hill_climbing(order, steps)
+        elif search_algorithm == "hc":
+            result = hill_climbing(order, steps)
+        elif search_algorithm == "sa":
+            result = simulated_annealing(order)
+
+        return list(set(result))
