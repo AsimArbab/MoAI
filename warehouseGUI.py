@@ -2,14 +2,14 @@ import tkinter as tk
 from tkinter import ttk, filedialog, scrolledtext
 from warehouse import Warehouse
 from wh_reader import WHreader
-from wh_search import 
+#from wh_search import 
 
 win = tk.Tk()
 win.title("Warehouse Calculator")
 
-"""Custom Input"""
-
-#warehouse information
+##################################################################################
+### Warehouse information ###
+### top left frame ###
 
 def load():
 	"""
@@ -38,9 +38,9 @@ def view():
 		psu_label.grid(column=1, sticky='W', row=counter + 1)
  
 
+# design #
 warehouseFrame = ttk.LabelFrame(win, text=' Warehouse Information ') # 1
 warehouseFrame.grid(column=1, sticky='WE', row=0, padx=5, pady=0)
-
 
 load_setting_button = ttk.Button(warehouseFrame, text="Load", command=load)
 load_setting_button.grid(column=1, row=1, padx=30, pady=10)
@@ -49,7 +49,19 @@ view_setting_button = ttk.Button(warehouseFrame, text="View", command=view)
 view_setting_button.grid(column=2, row=1, padx=20, pady=10)
 
 
-#order
+
+##################################################################################
+### Order ###
+### bottom left frame ###
+
+def load_order():
+	ordername = filedialog.askopenfilename(parent=win)
+	order_file = open(ordername)
+	global read_order
+	read_order = order_file.read()
+	placed_label = ttk.Label(orderFrame, text="Current Order: \n" + (', '.join(read_order)))
+	placed_label.grid(column=1, sticky='W', row=5, padx=10, pady=5)
+	
 def place_order():
 	"""
         writes the order in a variable and prints it out as well in the GUI
@@ -58,7 +70,7 @@ def place_order():
 	placed_label = ttk.Label(orderFrame, text="Current Order: \n" + scr.get(1.0, 99.0))
 	placed_label.grid(column=1, sticky='W', row=5, padx=10, pady=5)
 	
-
+# design #
 orderFrame = ttk.LabelFrame(win, text=' Order ') # 1
 orderFrame.grid(column=1,  sticky='NSWE', row=1, padx=5, pady=0)
 	
@@ -70,14 +82,19 @@ scrolH = 5
 scr = scrolledtext.ScrolledText(orderFrame, width=scrolW, height=scrolH, wrap=tk.WORD)
 scr.grid(column=1, sticky='WE', columnspan=2, padx=10, pady=5)
 
+load_order_button = ttk.Button(orderFrame, text="Load order", command=load_order)
+load_order_button.grid(column=1, row=4, padx=5, pady=5)
+
 place_order_button = ttk.Button(orderFrame, text="Place this order", command=place_order)
 place_order_button.grid(column=2, row=4, padx=5, pady=5)
 
 
 
-"""Search Methods"""
+##################################################################################
+### Search Method ###
+### top right frame ###
 
-#Button Action
+
 def clickMe(butt, labe):
 	
 	"""
@@ -108,9 +125,10 @@ def clickMe(butt, labe):
 	
 
 
+# design #
+
 methodsFrame = ttk.LabelFrame(win, text=' Search Methods ') # 1
 methodsFrame.grid(column=3, sticky='N', row=1, padx=5, pady=0)
-
 
 #Hill Climbing
 HC_label = ttk.Label(methodsFrame, text="Hill Climbing") # 5
@@ -154,7 +172,9 @@ for child in methodsFrame.winfo_children():
 	child.grid_configure(padx=15, pady=4)
 
 	
-"""OUTPUT"""
+##################################################################################
+### Output ###
+### bottom right frame ###
 
 def solve():
 	
@@ -181,8 +201,9 @@ def solve():
 	else:
 		warning_label.configure(foreground='red', text=' Please select \n a search method!')
 		warning_label.grid(column=5, row=5)
+
 		
-#solution
+# design #
 
 solutionFrame = ttk.LabelFrame(methodsFrame, text=' Solution ') # 1
 solutionFrame.grid(column=4, sticky='N', row=5, padx=5, pady=5)
