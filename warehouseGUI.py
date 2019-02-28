@@ -154,7 +154,8 @@ HC_steps_label = ttk.Label(methodsFrame, text="steps = ")
 HC_steps_label.grid(column=6, row=0)
 
 HC_steps = tk.IntVar() # creating integer variable HC_steps
-HC_steps_button = ttk.Entry(methodsFrame, width=3, textvariable=HC_steps) # creating a text box widget and pushing the content to the integer variable HC_steps
+HC_steps.set(100) # set default to 10.000
+HC_steps_button = ttk.Entry(methodsFrame, width=6, textvariable=HC_steps) # creating a text box widget and pushing the content to the integer variable HC_steps
 HC_steps_button.grid(column=7, row=0) 
 
 #Fist Choice HC
@@ -168,7 +169,8 @@ FC_steps_label = ttk.Label(methodsFrame, text="steps = ")
 FC_steps_label.grid(column=6, row=1)
 
 FC_steps = tk.IntVar() # creating integer variable FC_steps
-FC_steps_button = ttk.Entry(methodsFrame, width=3, textvariable=FC_steps) 
+FC_steps.set(100) # set default to 10.000
+FC_steps_button = ttk.Entry(methodsFrame, width=6, textvariable=FC_steps) 
 FC_steps_button.grid(column=7, row=1) 
 
 #Simmulated Annealing
@@ -182,7 +184,8 @@ SA_steps_label = ttk.Label(methodsFrame, text="steps = ")
 SA_steps_label.grid(column=6, row=2)
 
 SA_steps = tk.IntVar() # creating integer variable SA_steps
-SA_steps_button = ttk.Entry(methodsFrame, width=3, textvariable=SA_steps) 
+SA_steps.set(100) # set default to 10.000
+SA_steps_button = ttk.Entry(methodsFrame, width=6, textvariable=SA_steps) 
 SA_steps_button.grid(column=7, row=2)
 
 #Random Restart Climbing
@@ -196,7 +199,8 @@ RR_steps_label = ttk.Label(methodsFrame, text="steps = ")
 RR_steps_label.grid(column=6, row=3)
 
 RR_steps = tk.IntVar() # creating integer variable RR_steps
-RR_steps_button = ttk.Entry(methodsFrame, width=3, textvariable=RR_steps) 
+RR_steps.set(100) # set default to 10.000
+RR_steps_button = ttk.Entry(methodsFrame, width=6, textvariable=RR_steps) 
 RR_steps_button.grid(column=7, row=3) 
 
 RR_k_label = ttk.Label(methodsFrame, text="k = ")
@@ -218,7 +222,8 @@ LB_steps_label = ttk.Label(methodsFrame, text="steps = ")
 LB_steps_label.grid(column=6, row=4)
 
 LB_steps = tk.IntVar() # creating integer variable LB_steps
-LB_steps_button = ttk.Entry(methodsFrame, width=3, textvariable=LB_steps) 
+LB_steps.set(100) # set default to 10.000
+LB_steps_button = ttk.Entry(methodsFrame, width=6, textvariable=LB_steps) 
 LB_steps_button.grid(column=7, row=4) 
 
 LB_k_label = ttk.Label(methodsFrame, text="k = ")
