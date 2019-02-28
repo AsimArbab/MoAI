@@ -49,7 +49,7 @@ def objective_function(state):
 def best_neighbour(neighbourhood, k=1):
     """
     Returns the best neighbour and its objective value according to the Objective Function.
-            Optionally the best k neighbours. I there are less than k neighbours, all available
+            Optionally the best k neighbours. If there are less than k neighbours, all available
             neighbours are returned
     Args:
         neighbourhood ([PSU[]]): possible configurations of the neighbourhood
@@ -91,6 +91,17 @@ def randomstate(statespace):
 
 
 def first_choice_hill_climbing(statespace, steps=100000):
+    """
+    Perform n steps of First Choice Hill Climbing on a given statespace starting from a random possible state
+
+    Arg:
+        statespace ([PSU[]]): Possible variable assignments for each partial state
+        steps (int): number of times the algorithm runs before terminating. Defaults to 100000
+
+    Returns:
+       PSU[]:   best visited state according to objective function
+
+    """
     current = randomstate(statespace)
     for i in range(steps):
         hood = neighbourhood(current, statespace)
@@ -104,6 +115,17 @@ def first_choice_hill_climbing(statespace, steps=100000):
 
 
 def hill_climbing(statespace, steps=100000):
+    """
+    Perform n steps of hill climbing on a given statespace starting from a random possible state
+
+    Arg:
+        statespace ([PSU[]]): Possible variable assignments for each partial state
+        steps (int): number of times the algorithm runs before terminating. Defaults to 100000
+
+    Returns:
+       PSU[]:   best visited state according to objective function
+
+    """
     current = randomstate(statespace)
     for i in range(steps):
         hood = neighbourhood(current, statespace)
@@ -115,6 +137,18 @@ def hill_climbing(statespace, steps=100000):
 
 
 def random_restart_climbing(statespace, n, steps=10000):
+    """
+    Perform n restarts of hill climbing on a given statespace, each starting from a random possible state
+
+    Arg:
+        statespace ([PSU[]]): Possible variable assignments for each partial state
+        n (int): Number of random restarts
+        steps (int): number of times the algorithm runs before terminating. Defaults to 10000
+
+    Returns:
+       PSU[]:   best of the list of accumulated hill climbing winners
+
+    """
     candidates = []
     for i in range(n):
         candidates.append((hill_climbing(statespace, steps)))
@@ -125,6 +159,18 @@ def random_restart_climbing(statespace, n, steps=10000):
 
 
 def local_beam_search(statespace, k, steps=10000):
+    """
+    Perform Local Beam Search with k states and n steps
+
+    Arg:
+        statespace ([PSU[]]): Possible variable assignments for each partial state
+        k (int): number of beams
+        steps (int): number of times the algorithm runs before terminating. Defaults to 100000
+
+    Returns:
+       PSU[]:   best of the k current neighbours according to objective function
+
+    """
     k_current = [randomstate(statespace) for i in range(k)]
 
     for i in range(steps):
