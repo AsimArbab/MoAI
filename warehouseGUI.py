@@ -142,39 +142,53 @@ methodsFrame.grid(column=3, sticky='N', row=1, padx=5, pady=0)
 HC_label = ttk.Label(methodsFrame, text="Hill Climbing") # 5
 HC_label.grid(column=4, row=0)
 
-HC_button = ttk.Button(methodsFrame, text="Use", command= lambda: clickMe(HC_button, HC_label)) # 7
-HC_button.grid(column=5, row=0) # 
+HC_button = ttk.Button(methodsFrame, text="Use", command= lambda: clickMe(HC_button, HC_label))
+HC_button.grid(column=5, row=0)
 
 #Fist Choice HC
-FC_hc_label = ttk.Label(methodsFrame, text="First Choice Hill Climbing") # 5
+FC_hc_label = ttk.Label(methodsFrame, text="First Choice Hill Climbing")
 FC_hc_label.grid(column=4, row=1)
 
 FC_hc_button = ttk.Button(methodsFrame, text="Use", command= lambda: clickMe(FC_hc_button, FC_hc_label)) # using wrapper method to pass arguments to the command function
-FC_hc_button.grid(column=5, row=1) # 
+FC_hc_button.grid(column=5, row=1)
 
 #Simmulated Annealing
-SA_label = ttk.Label(methodsFrame, text="Simmulated Annealing") # 5
+SA_label = ttk.Label(methodsFrame, text="Simmulated Annealing")
 SA_label.grid(column=4, row=2)
 
-SA_button = ttk.Button(methodsFrame, text="Use", command= lambda: clickMe(SA_button, SA_label)) # 7
-SA_button.grid(column=5, row=2) # 
+SA_button = ttk.Button(methodsFrame, text="Use", command= lambda: clickMe(SA_button, SA_label))
+SA_button.grid(column=5, row=2)
 
-#Parallel Climbing
-PC_label = ttk.Label(methodsFrame, text="Parallel Climbing") # 5
-PC_label.grid(column=4, row=3)
+#Random Restart Climbing
+RR_label = ttk.Label(methodsFrame, text="Random Restart Climbing")
+RR_label.grid(column=4, row=3)
 
-PC_button = ttk.Button(methodsFrame, text="Use", command= lambda: clickMe(PC_button, PC_label)) # 7
-PC_button.grid(column=5, row=3) # 
+RR_button = ttk.Button(methodsFrame, text="Use", command= lambda: clickMe(RR_button, RR_label))
+RR_button.grid(column=5, row=3)
+
+RR_k_label = ttk.Label(methodsFrame, text="k = ")
+RR_k_label.grid(column=6, row=3)
+
+RR_k = tk.StringVar()
+RR_k_button = ttk.Entry(methodsFrame, width=3, textvariable=RR_k)
+RR_k_button.grid(column=7, row=3) 
 
 #Local Beam
-LB_label = ttk.Label(methodsFrame, text="Local Beam") # 5
+LB_label = ttk.Label(methodsFrame, text="Local Beam")
 LB_label.grid(column=4, row=4)
 
-LB_button = ttk.Button(methodsFrame, text="Use", command= lambda: clickMe(LB_button, LB_label)) # 7
-LB_button.grid(column=5, row=4) # 
+LB_button = ttk.Button(methodsFrame, text="Use", command= lambda: clickMe(LB_button, LB_label))
+LB_button.grid(column=5, row=4)
 
-button_list = (HC_button, FC_hc_button, SA_button, PC_button, LB_button)
-label_list = (HC_label, FC_hc_label, SA_label, PC_label, LB_label)
+LB_k_label = ttk.Label(methodsFrame, text="k = ")
+LB_k_label.grid(column=6, row=4)
+
+LB_k = tk.StringVar()
+LB_k_button = ttk.Entry(methodsFrame, width=3, textvariable=LB_k)
+LB_k_button.grid(column=7, row=4) 
+
+button_list = (HC_button, FC_hc_button, SA_button, RR_button, LB_button)
+label_list = (HC_label, FC_hc_label, SA_label, RR_label, LB_label)
 
 for child in methodsFrame.winfo_children():
 	child.grid_configure(padx=15, pady=4)
@@ -200,8 +214,14 @@ def solve():
 			
 	if selected == True:
 		warning_label.configure(text='')
+		if chosen_method == 'Random Restart Climbing':
+			n = RR_k
+		else if chosen_method == 'Local Beam':
+			n = LB_k
+		else: 
+			n = None
 		global whouse_object
-		to_print_out = whouse_object.bring_item(print_order,chosen_method,steps= 10000,n=4)
+		to_print_out = whouse_object.bring_item(print_order,chosen_method, n)
 		
 		solution_label = ttk.Label(methodsFrame, text=chosen_method + " gave you\nthe following solution: \n\n" + (', '.join(to_print_out)))
 		solution_label.grid(column=4, sticky='W', row=7, padx=10, pady=5)
