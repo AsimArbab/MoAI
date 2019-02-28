@@ -185,7 +185,8 @@ def local_beam_search(statespace, k, steps=10000):
         if any(new_value[0] > current_value for new_value in k_best_neighbours for current_value in current_vals):
             k_current = [neighbour[1] for neighbour in k_best_neighbours]
 
-    return best_neighbour(k_current)
+        best = best_neighbour(k_current)
+    return best[1]
 
 
 def simulated_annealing(statespace, temperature=1):
